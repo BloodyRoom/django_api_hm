@@ -43,6 +43,11 @@ INSTALLED_APPS = [
     'corsheaders',
 ]
 
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:5173',
+    'http://127.0.0.1:5173',
+]
+
 REST_FRAMEWORK = {
     # YOUR SETTINGS
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
@@ -148,8 +153,6 @@ IMAGES_ROOT = BASE_DIR / 'images'
 
 AUTH_USER_MODEL = 'users.CustomUser'
 
-CORS_ALLOW_ALL_ORIGINS = True
-
 SPECTACULAR_SETTINGS = {
     'TITLE': 'My Django API ATB',
     'DESCRIPTION': 'З наступаючим Різдвом та Новим Роком',
@@ -158,3 +161,13 @@ SPECTACULAR_SETTINGS = {
     'COMPONENT_SPLIT_REQUEST': True,
     # OTHER SETTINGS
 }
+
+FRONTEND_URL = 'http://localhost:5173'
+
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_USE_SSL = True
+EMAIL_USE_TLS = False
+EMAIL_HOST = 'smtp.ukr.net'
+EMAIL_PORT = 465
+EMAIL_HOST_USER = 'sabadashkamaksym@ukr.net'
+EMAIL_HOST_PASSWORD = 'PCgjtjsfSHmBHghc'
