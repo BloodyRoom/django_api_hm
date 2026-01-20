@@ -50,6 +50,7 @@ INSTALLED_APPS = [
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:5173',
     'http://127.0.0.1:5173',
+    'http://63.180.226.181:3000'
 ]
 
 REST_FRAMEWORK = {
