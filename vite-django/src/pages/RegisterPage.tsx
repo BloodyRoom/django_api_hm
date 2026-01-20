@@ -12,7 +12,7 @@ const RegisterPage = () => {
 
     useEffect(() => {
         if (localStorage.getItem("access") !== null) {
-            navigate("/me");
+            navigate("/");
         }
     }, []);
 
@@ -30,7 +30,7 @@ const RegisterPage = () => {
                 localStorage.setItem("access", res.data.access);
                 localStorage.setItem("refresh", res.data.refresh);
                 console.log("Register is good", res);
-                navigate("/me");
+                navigate("/");
             });
         console.log('Success:', values);
     }

@@ -3,7 +3,7 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 
 from rest_framework.permissions import IsAuthenticated
-from .serializers import RegisterSerializer, UserSerializer, LoginSerializer, PasswordResetSerializer, PasswordResetConfirmSerializer
+from .serializers import RegisterSerializer, UserSerializer, LoginSerializer, PasswordResetSerializer, PasswordResetConfirmSerializer, GoogleLoginSerializer
 from rest_framework import parsers
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.parsers import JSONParser, FormParser, MultiPartParser
@@ -65,3 +65,9 @@ class UserViewSet(viewsets.ReadOnlyModelViewSet):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(status=status.HTTP_200_OK)
+    
+    @action(detail=False, methods=["post"], url_path="google-login", serializer_class=GoogleLoginSerializer, parser_classes=[JSONParser, FormParser, MultiPartParser])
+    def google_login(self, request):
+        serializer = GoogleLoginSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        return Response(serializer.validated_data, status=200)

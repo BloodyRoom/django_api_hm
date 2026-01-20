@@ -1,0 +1,37 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:16
+    container_name: db
+    restart: always
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  server:
+    build: ./Django API/atbapi
+    container_name: django
+    env_file:
+      - .env
+    volumes:
+      - image_data:/app/images
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+
+  front:
+    build: ./vite-django
+    container_name: front
+    depends_on:
+      - server
+    ports:
+      - "3000:3000"
+
+volumes:
+  postgres_data:
+  image_data:

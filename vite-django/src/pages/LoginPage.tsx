@@ -4,6 +4,7 @@ import axios, { AxiosError } from "axios";
 import {useEffect, useState} from "react";
 import {useNavigate} from "react-router";
 import type {ILoginError} from "../types/account/ILoginError.ts";
+import { GoogleLogin, type CredentialResponse } from '@react-oauth/google';
 
 const LoginPage = () => {
     const [form] = Form.useForm<ILoginUser>();
@@ -14,7 +15,7 @@ const LoginPage = () => {
 
     useEffect(() => {
         if (localStorage.getItem("access") !== null || localStorage.getItem("refresh") !== null) {
-            navigate("/me");
+            navigate("/");
         }
     }, []);
 
@@ -31,8 +32,41 @@ const LoginPage = () => {
             });
 
 
-            navigate("/me");
+            navigate("/");
         } catch (error) {
+            const err = error as AxiosError<ILoginError>;
+
+            if (err.response) {
+                const {status, data} = err.response;
+
+                if (status === 400 && data) {
+                    if (data.non_field_errors) {
+                        setError(data.non_field_errors);
+                    }
+
+                    if (data.email) {
+                        setError(data.email);
+                    }
+                }
+            }
+        }
+    };
+
+    const onGoogleLogin = async (cred: CredentialResponse) => {
+        if (!cred.credential) {
+            return;
+        }
+
+        try {
+            await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/users/google-login/`, {
+                token: cred.credential,
+            }).then(res => {
+                localStorage.setItem("access", res.data.access);
+                localStorage.setItem("refresh", res.data.refresh);
+            });
+
+            navigate("/");
+        } catch (error: any) {
             const err = error as AxiosError<ILoginError>;
 
             if (err.response) {
@@ -101,6 +135,14 @@ const LoginPage = () => {
                                             Ввійти
                                         </Button>
                                     </Form.Item>
+
+                                    <div className="mb-[24px]">
+                                        <GoogleLogin
+                                            onSuccess={onGoogleLogin}
+                                            onError={() => console.log('Google Login Error')}
+                                            
+                                        />
+                                    </div>
 
                                     <p className={"mb-[24px]"}>Немає аккаунту? <a onClick={() => navigate("/register")}>Зареєструватись</a></p>
 

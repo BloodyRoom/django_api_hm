@@ -12,9 +12,9 @@ function App() {
     return (
         <Routes>
             <Route path={"/"}>
+                <Route index element={<MePage />}/>
                 <Route path={"register"} element={<RegisterPage />}/>
                 <Route path={"login"} element={<LoginPage />}/>
-                <Route path={"me"} element={<MePage />}/>
                 <Route path={"forgot"} element={<ForgotPassword />}/>
                 <Route path="reset-password/:uid/:token" element={<ResetPassword />} />
             </Route>
