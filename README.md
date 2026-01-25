@@ -12,4 +12,4 @@ git pull
 
 docker compose up -d
 
-docker exec -it front /bin/bash
+docker exec -it front /bin/sh
