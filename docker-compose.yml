@@ -27,6 +27,8 @@ services:
   front:
     build: ./vite-django
     container_name: front
+    env_file:
+      - .env
     depends_on:
       - server
     ports:
