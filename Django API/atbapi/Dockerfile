@@ -12,10 +12,12 @@ WORKDIR /app
 
 # Install dependencies: first copy requirements.txt and install them
 COPY requirements.txt /app/
-RUN pip install --upgrade pip && pip install -r requirements.txt && python manage.py migrate
+RUN pip install --upgrade pip && pip install -r requirements.txt
 
 # Copy the rest of the application code into the container
 COPY . /app/
+
+RUN python manage.py migrate
 
 # Expose port 8000, the default Django development server port
 EXPOSE 8000
