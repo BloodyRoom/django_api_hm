@@ -12,7 +12,7 @@ WORKDIR /app
 
 # Install dependencies: first copy requirements.txt and install them
 COPY requirements.txt /app/
-RUN pip install --upgrade pip && pip install -r requirements.txt
+RUN pip install --upgrade pip && pip install -r requirements.txt && python manage.py migrate
 
 # Copy the rest of the application code into the container
 COPY . /app/
