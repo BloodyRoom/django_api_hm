@@ -20,5 +20,9 @@ COPY . /app/
 # Expose port 8000, the default Django development server port
 EXPOSE 8000
 
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]
+
 # Define the command to run the Django application
 CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
